@@ -1,0 +1,103 @@
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
+
+#include "MQTTConnector.h"
+#include "Global.h"
+#include "Credentials.h"
+
+WiFiClient wifiClient;
+PubSubClient mqttClient(wifiClient);
+
+boolean mqttInitCompleted = false;
+String clientId = "IoTPractice-" + String(ESP.getChipId());
+
+/* Incoming data callback. */
+void dataCallback(char* topic, byte* payload, unsigned int length)
+{
+  char payloadStr[length + 1];
+  memset(payloadStr, 0, length + 1);
+  strncpy(payloadStr, (char*)payload, length);
+  Printf("Data    : dataCallback. Topic : [%s]\n", topic);
+  Printf("Data    : dataCallback. Payload : %s\n", payloadStr);
+
+  if(strncmp(topic, MQTT_TOPIC_RELAY, strlen(MQTT_TOPIC_RELAY)) == 0)
+  {
+    if(strncmp(payloadStr, "on", strlen("on")) == 0)
+    {
+      Printf("setting ON!\n");
+    }
+    else if(strncmp(payloadStr, "off", strlen("off")) == 0)
+    {
+      Printf("setting OFF!\n");
+    }
+  }
+}
+
+/* Attempt to connect to the Cloud for MQTT. */
+void performConnect()
+{
+  uint16_t connectionDelay = 5000;
+  while (!mqttClient.connected())
+  {
+    Printf("Trace   : Attempting MQTT connection...\n");
+    if (mqttClient.connect(clientId.c_str(), MQTT_USERNAME, MQTT_PASS))
+    {
+      Printf("Trace   : Connected to Broker.\n");
+      MQTTSubscribe(MQTT_TOPIC_RELAY);
+    }
+    else
+    {
+      Printf("Error!  : MQTT Connect failed, rc = %d\n", mqttClient.state());
+      Printf("Trace   : Trying again in %d msec.\n", connectionDelay);
+      delay(connectionDelay);
+    }
+  }
+}
+
+/* Publish data to given topic. */
+boolean MQTTPublish(const char* topic, const char* payload)
+{
+  boolean retval = false;
+  if (mqttClient.connected())
+  {
+    retval = mqttClient.publish(topic, payload);
+  }
+  return retval;
+}
+
+/* Subscribe to listen incoming data from given topic. */
+boolean MQTTSubscribe(const char* topicToSubscribe)
+{
+  boolean retval = false;
+  if (mqttClient.connected())
+  {
+    retval = mqttClient.subscribe(topicToSubscribe);
+  }
+  return retval;
+}
+
+boolean MQTTConnected()
+{
+  return mqttClient.connected();
+}
+
+/* Initialize MQTT Connection. */
+void MQTTBegin()
+{
+  mqttClient.setServer(MQTT_BROKER, MQTT_BROKER_PORT);
+  mqttClient.setCallback(dataCallback);
+  mqttInitCompleted = true;
+}
+
+/* Keep MQTT connection alive. */
+void MQTTLoop()
+{
+  if(mqttInitCompleted)
+  {
+    if (!MQTTConnected())
+    {
+      performConnect();
+    }
+    mqttClient.loop();
+  }
+}
