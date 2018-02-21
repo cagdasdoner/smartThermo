@@ -31,7 +31,7 @@ void performConnect()
     if (mqttClient.connect(clientId.c_str(), MQTT_USERNAME, MQTT_PASS))
     {
       Printf("Trace   : Connected to Broker.\n");
-      MQTTSubscribe(MQTT_TOPIC_SENSOR);
+      MQTTSubscribe(MQTT_TOPIC_THERMOSTAT);
     }
     else
     {

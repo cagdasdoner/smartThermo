@@ -21,7 +21,7 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
   Printf("Data    : dataCallback. Topic : [%s]\n", topic);
   Printf("Data    : dataCallback. Payload : %s\n", payloadStr);
 
-  if(strncmp(topic, MQTT_TOPIC_RELAY, strlen(MQTT_TOPIC_RELAY)) == 0)
+  if(strncmp(topic, MQTT_TOPIC_COMBI, strlen(MQTT_TOPIC_COMBI)) == 0)
   {
     if(strncmp(payloadStr, "on", strlen("on")) == 0)
     {
@@ -46,7 +46,7 @@ void performConnect()
     if (mqttClient.connect(clientId.c_str(), MQTT_USERNAME, MQTT_PASS))
     {
       Printf("Trace   : Connected to Broker.\n");
-      MQTTSubscribe(MQTT_TOPIC_RELAY);
+      MQTTSubscribe(MQTT_TOPIC_COMBI);
     }
     else
     {

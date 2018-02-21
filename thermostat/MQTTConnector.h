@@ -3,8 +3,8 @@
 
 #include <Arduino.h>
 
-#define MQTT_TOPIC_SENSOR  "/iot/data/sensor"
-#define MQTT_TOPIC_RELAY   "/iot/data/relay"
+#define MQTT_TOPIC_THERMOSTAT "/iot/data/thermostat"
+#define MQTT_TOPIC_COMBI      "/iot/data/combi"
 
 void    MQTTBegin();
 void    MQTTLoop();

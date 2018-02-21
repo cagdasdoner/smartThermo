@@ -22,7 +22,7 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
   Printf("Data    : dataCallback. Topic : [%s]\n", topic);
   Printf("Data    : dataCallback. Payload : %s\n", payloadStr);
 
-  if(strncmp(topic, MQTT_TOPIC_SENSOR, strlen(MQTT_TOPIC_SENSOR)) == 0)
+  if(strncmp(topic, MQTT_TOPIC_THERMOSTAT, strlen(MQTT_TOPIC_THERMOSTAT)) == 0)
   {
     /* ATTENTION : temperature variable is converting to an integer. */
     String temperatureStr = payloadStr;
@@ -32,17 +32,17 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
     /*
      * Do your implementation below ! 
      * 
-     * Gathered thermostat value need to be compared with given threshold. 
+     * Gathered thermostat value need to be compared with given threshold/limit. 
      * For example : If read temperature value is greater than 29 degrees in C,
      *               combi(boiler) need to be disabled.
      * 
-     * Need to publish control data to this topic : MQTT_TOPIC_RELAY
+     * Need to publish control data to this topic : MQTT_TOPIC_COMBI
      * 
      * Send "on" to enable, "off" to disable the combi(boiler).
      * 
      * USAGE : MQTTPublish(YOUR_TOPIC_NAME, DATA_TO_BE_SENT);
      */
-      
+     
   }
 }
 
@@ -62,7 +62,7 @@ void performConnect()
       /* 
        *  Do your implementation below ! 
        *  
-       *  Need to Subscribe to this topic to read temperature: MQTT_TOPIC_SENSOR
+       *  Need to Subscribe to this topic to read temperature: MQTT_TOPIC_THERMOSTAT
        *  
        *  With this subscription, we will receive temperature sensor values from thermostat!
        *  

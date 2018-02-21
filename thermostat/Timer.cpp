@@ -37,7 +37,7 @@ void TIMERLoop()
       {
         /* Publish to the topic */
         Printf("Trace   : MQTT publish on the go. ->%s\n", tempStr);
-        if(!MQTTPublish(MQTT_TOPIC_SENSOR, tempStr))
+        if(!MQTTPublish(MQTT_TOPIC_THERMOSTAT, tempStr))
         {
           Printf("Error!  : Publishment has not succeeded!\n");
         }
