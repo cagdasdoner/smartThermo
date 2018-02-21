@@ -9,6 +9,9 @@
 //#define USE_GENERIC_ESP8266
 //#define USE_ADAFRUIT_HUZZAH
 
+/* Peripheral definitions */
+#define LOW_LEVEL_TRIGGER
+
 /* Buffer sizes */
 #define LEN_IP_MAX          17 
 #define LEN_SSID_MAX        32 

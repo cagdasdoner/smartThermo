@@ -2,6 +2,7 @@
 #include <PubSubClient.h>
 
 #include "MQTTConnector.h"
+#include "Hardware.h"
 #include "Global.h"
 #include "Credentials.h"
 
@@ -24,11 +25,13 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
   {
     if(strncmp(payloadStr, "on", strlen("on")) == 0)
     {
-      Printf("setting ON!\n");
+      Printf("Relay on.\n");
+      HWSetPin(pinMap[0], HIGH);
     }
     else if(strncmp(payloadStr, "off", strlen("off")) == 0)
     {
-      Printf("setting OFF!\n");
+      Printf("Relay off.\n");
+      HWSetPin(pinMap[0], LOW);
     }
   }
 }

@@ -3,8 +3,9 @@
 
 #include <Arduino.h>
 
-void  HWInit();
-void  HWRestart();
-void  HWLoop();
+void HWInit();
+void HWRestart();
+void HWLoop();
+void HWSetPin(int pin, boolean state);
 
 #endif /* ARDUINO_HARDWARE_H */
