@@ -6,4 +6,3 @@ Required Arduino Libraries for Actuator:
 
 0. To install arduino libraries use Sketch->Include Libraries->Library Manager or Add .ZIP Library.
 1. PubSubClient for MQTT : https://github.com/knolleary/pubsubclient/
-
