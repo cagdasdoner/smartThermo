@@ -28,8 +28,6 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
     String temperatureStr = payloadStr;
     /* Gathered temperature value as integer. */
     int temperature = temperatureStr.toInt();
-
-    Printf("Gathered.%d\n", temperature);
   
     /*
      * Do your implementation below ! 
