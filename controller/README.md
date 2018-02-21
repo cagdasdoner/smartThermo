@@ -1,6 +1,6 @@
 Here is the actual codebase that our workshop will be taking place.
 
-MQTTConnector will have two modifications to receive the thermostat readings and compare them to activate and de-activate the combi (boiler).
+CloudConnector will have two modifications to receive the thermostat readings and compare them to activate and de-activate the combi (boiler).
 
 Required Arduino Libraries for Actuator:
 
