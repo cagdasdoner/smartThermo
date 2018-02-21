@@ -44,10 +44,7 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
      * 
      * USAGE : Publish(DEVICE_MESSAGE_ADDRESS, DATA_TO_BE_SENT);
      */
-           if(temperature > 29)
-        Publish(THERMOSTAT_ADDRESS, "off");
-       else
-        Publish(THERMOSTAT_ADDRESS, "on");
+
   }
 }
 
@@ -74,7 +71,6 @@ void performConnect()
        *  USAGE: Subscribe(DEVICE_MESSAGE_ADDRESS);
        */
 
-      Subscribe(THERMOSTAT_ADDRESS);
     }
     else
     {

@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 #include "WiFiCore.h"
-#include "MQTTConnector.h"
+#include "CloudConnector.h"
 #include "Hardware.h"
 #include "Global.h"
 #include "Credentials.h"
