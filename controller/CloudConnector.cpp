@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-#include "MQTTConnector.h"
+#include "CloudConnector.h"
 #include "Global.h"
 #include "Credentials.h"
 
@@ -22,12 +22,14 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
   Printf("Data    : dataCallback. Topic : [%s]\n", topic);
   Printf("Data    : dataCallback. Payload : %s\n", payloadStr);
 
-  if(strncmp(topic, MQTT_TOPIC_THERMOSTAT, strlen(MQTT_TOPIC_THERMOSTAT)) == 0)
+  if(strcmp(topic, THERMOSTAT_ADDRESS) == 0)
   {
     /* ATTENTION : temperature variable is converting to an integer. */
     String temperatureStr = payloadStr;
     /* Gathered temperature value as integer. */
     int temperature = temperatureStr.toInt();
+
+    Printf("Gathered.%d\n", temperature);
   
     /*
      * Do your implementation below ! 
@@ -36,13 +38,16 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
      * For example : If read temperature value is greater than 29 degrees in C,
      *               combi(boiler) need to be disabled.
      * 
-     * Need to publish control data to this topic : MQTT_TOPIC_COMBI
+     * Need to publish control data to this topic : COMBI_ADDRESS
      * 
      * Send "on" to enable, "off" to disable the combi(boiler).
      * 
-     * USAGE : MQTTPublish(YOUR_TOPIC_NAME, DATA_TO_BE_SENT);
+     * USAGE : Publish(DEVICE_MESSAGE_ADDRESS, DATA_TO_BE_SENT);
      */
-     
+           if(temperature > 29)
+        Publish(THERMOSTAT_ADDRESS, "off");
+       else
+        Publish(THERMOSTAT_ADDRESS, "on");
   }
 }
 
@@ -62,13 +67,14 @@ void performConnect()
       /* 
        *  Do your implementation below ! 
        *  
-       *  Need to Subscribe to this topic to read temperature: MQTT_TOPIC_THERMOSTAT
+       *  Need to Subscribe to this topic to read temperature: THERMOSTAT_ADDRESS
        *  
        *  With this subscription, we will receive temperature sensor values from thermostat!
        *  
-       *  USAGE: MQTTSubscribe(YOUR_TOPIC_NAME);
+       *  USAGE: Subscribe(DEVICE_MESSAGE_ADDRESS);
        */
-       
+
+      Subscribe(THERMOSTAT_ADDRESS);
     }
     else
     {
@@ -80,7 +86,7 @@ void performConnect()
 }
 
 /* MQTT Publisher function. */
-boolean MQTTPublish(const char* topic, const char* payload)
+boolean Publish(const char* topic, const char* payload)
 {
   boolean retval = false;
   if (mqttClient.connected())
@@ -91,7 +97,7 @@ boolean MQTTPublish(const char* topic, const char* payload)
 }
 
 /* MQTT Subscriber function. */
-boolean MQTTSubscribe(const char* topicToSubscribe)
+boolean Subscribe(const char* topicToSubscribe)
 {
   boolean retval = false;
   if (mqttClient.connected())
