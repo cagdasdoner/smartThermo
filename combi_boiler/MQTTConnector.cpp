@@ -21,14 +21,14 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
   Printf("Data    : dataCallback. Topic : [%s]\n", topic);
   Printf("Data    : dataCallback. Payload : %s\n", payloadStr);
 
-  if(strncmp(topic, MQTT_TOPIC_COMBI, strlen(MQTT_TOPIC_COMBI)) == 0)
+  if(strcmp(topic, MQTT_TOPIC_COMBI) == 0)
   {
-    if(strncmp(payloadStr, "on", strlen("on")) == 0)
+    if(strcmp(payloadStr, "on") == 0)
     {
       Printf("Relay on.\n");
       HWSetPin(pinMap[0], HIGH);
     }
-    else if(strncmp(payloadStr, "off", strlen("off")) == 0)
+    else if(strcmp(payloadStr, "off") == 0)
     {
       Printf("Relay off.\n");
       HWSetPin(pinMap[0], LOW);
